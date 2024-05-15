@@ -29,6 +29,7 @@ SHIKI_MSG = [
      "Letz talk about other idk."
 ]
 
+
 @shiki.on_message(filters.text, group=1)
 async def shiki_reply(client, message):
 
@@ -63,11 +64,6 @@ async def shiki_reply(client, message):
         
         
 
-    
-
-                  
-
-
 @shiki.on_message(filters.command('shiki', prefixes=['.']))
 @admin_only
 async def shiki(client, message):
@@ -90,7 +86,6 @@ async def shiki(client, message):
          return message.reply(
             'Maybe something you did wrong, Example: `.shiki on|off`')
  
-           
 
 
 @shiki.on_message(filters.me & filters.command('chats', prefixes=['.']))
