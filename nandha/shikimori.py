@@ -5,6 +5,7 @@ from pyrogram import filters, types, enums
 
 import requests
 import config
+import random
 
 
 def admin_only(func):
@@ -18,7 +19,15 @@ def admin_only(func):
             if user.privileges:
                  return await func(client, message)
 
-
+SHIKI_MSG = [
+     
+     "Hi there i can't reply that question try asking again.",
+     "Hello something went wrong idk.",
+     "Hey idk why do you ask such thing",
+     "Hmm... well idk.",
+     "Please idk maybe ask other",
+     "Letz talk about other idk."
+]
 
 @shiki.on_message(filters.text, group=1)
 async def shiki_reply(client, message):
@@ -38,12 +47,17 @@ async def shiki_reply(client, message):
         prompt = (
           f"{name}: {message.text}"
         )
+         
         api = f'http://apis-awesome-tofu.koyeb.app/api/sakura_ai/continue?chat_id=DdsFW8n&prompt={prompt}'
-        response = requests.get(api).json()
+         
         try:
-          reply = response['reply']
+           response = requests.get(api).json()
+           reply = response['reply']
         except Exception as e:
+             
              print(name, e)
+             reply = random.choice(SHIKI_MSG)
+             
         return await message.reply(
              text=reply, quote=True)
         
@@ -77,7 +91,18 @@ async def shiki(client, message):
             'Maybe something you did wrong, Example: `.shiki on|off`')
  
            
-           
+
+
+@shiki.on_message(filters.me & filters.command('chats', prefixes=['.']))
+async def get_shiki_chats(client, message):
+       chats = get_chats()
+       text = 'Shiki Chats:\n'
+       for i, chat_id in enumerate(chats):
+              text += f'{i+1}, `{chat_id}`'
+       return await message.reply(
+            text=text
+       )
+                  
       
 
 
