@@ -1,6 +1,6 @@
 
 from nandha import shiki
-from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_sticker
+from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_chat_sticker
 from pyrogram import filters, types, enums
 
 import requests
@@ -57,8 +57,14 @@ async def shiki_reply(client, message):
              return
 
         if message.sticker:
-              add_sticker(
+              add_chat_sticker(
                    chat_id, message.sticker.file_id)
+              try:
+                 stickers = get_chat_stickers(chat_id)
+                 await message.reply_sticker(sticker=random.choice(stickers), quote=True)
+              except Exception as e:
+                      pass
+              return
              
         prompt = (
           f"username: {name}\n"
