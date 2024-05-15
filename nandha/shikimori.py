@@ -57,12 +57,14 @@ async def shiki_reply(client, message):
              return
              
         prompt = (
-          f"user: {name}\n"
+          f"username: {name}\n"
           f"prompt: {message.text}"
         )
          
         api = f'http://apis-awesome-tofu.koyeb.app/api/sakura_ai/continue?chat_id=DdsFW8n&prompt={prompt}'
-         
+
+        await shiki.send_chat_action(
+               chat_id=chat_id, action=enums.ChatAction.TYPING)
         try:
            response = requests.get(api).json()
            reply = response['reply']
