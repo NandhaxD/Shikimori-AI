@@ -1,5 +1,7 @@
 
 from nandha import shiki
+from pyrogram import filters
+
 import subprocess
 
 @shiki.on_message(filters.me & filters.command('logs'))
