@@ -2,7 +2,7 @@ from nandha import shiki
 
 import pyrogram
 
-async def client()
+async def client():
       await shiki.start()
       await pyrogram.idle()
       return await shiki.send_message(
