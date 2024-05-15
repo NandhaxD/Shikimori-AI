@@ -3,7 +3,7 @@
 from nandha import db
 
 
-def chat_mode(chat_id: int, mode):
+def set_chat_mode(chat_id: int, mode):
      db = db['chats']
      chat = {'chat_id': chat_id}
      db.update_one(chat,
@@ -24,7 +24,7 @@ def get_chat_mode(chat_id: int):
       db = db['chats']
       chat = {'chat_id': chat_id}
       if not db.find_one(chat):
-          chat_mode(chat_id, False)
+          set_chat_mode(chat_id, False)
       chat = db.find_one(chat)
       return chat['mode']
       
