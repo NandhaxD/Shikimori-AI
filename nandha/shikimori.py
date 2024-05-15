@@ -16,7 +16,8 @@ def admin_only(func):
                return await func(client, message)
          else:
             user = await client.get_chat_member(chat_id, user_id)
-            if user.privileges:
+            
+            if user.privileges or user_id == config.shiki_id:
                  return await func(client, message)
             return False
 
@@ -46,6 +47,10 @@ async def shiki_reply(client, message):
         chat_id = message.chat.id
         name = message.from_user.first_name
 
+        db_chats = get_chats()
+        if not chat_id in db_chats:
+             return
+             
         prompt = (
           f"{name}: {message.text}"
         )
