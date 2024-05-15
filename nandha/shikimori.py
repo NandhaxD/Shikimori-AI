@@ -90,7 +90,7 @@ async def shiki_mode(client, message):
            return await message.reply(
               f'**Shikimori Assistant {mode} in {chatname}.**')
       else:
-         return message.reply(
+         return await message.reply(
             'Maybe something you did wrong, Example: `.shiki on|off`')
  
 
@@ -98,11 +98,11 @@ async def shiki_mode(client, message):
 @shiki.on_message(filters.me & filters.command('chats', prefixes=['.', '?']))
 async def get_shiki_chats(client, message):
        chats = get_chats()
-       text = 'Shiki Chats: {}\n'
-       count = 0
+       text = '**Shiki Chats**: {}\n'
+       count = 1
        for i, chat_id in enumerate(chats):
-              count += i+1
-              text += f'{i+1}, `{chat_id}`'
+              count += i
+              text += f'{i+1}, `{chat_id}`\n'
             
        return await message.reply(
             text=text.format(count)
