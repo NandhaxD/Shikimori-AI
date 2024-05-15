@@ -19,7 +19,8 @@ def admin_only(func):
             
             if user.privileges or user_id == config.shiki_id:
                  return await func(client, message)
-            return False
+     return wrapped
+              
 
 SHIKI_MSG = [
      
