@@ -66,7 +66,7 @@ async def shiki_reply(client, message):
 
 @shiki.on_message(filters.command('shiki', prefixes=['.']))
 @admin_only
-async def shiki(client, message):
+async def shiki_mode(client, message):
   
       chat_id = message.chat.id
 
