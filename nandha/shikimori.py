@@ -53,7 +53,8 @@ async def shiki_reply(client, message):
              return
              
         prompt = (
-          f"{name}: {message.text}"
+          f"user: {name}\n"
+          f"prompt": {prompt}"
         )
          
         api = f'http://apis-awesome-tofu.koyeb.app/api/sakura_ai/continue?chat_id=DdsFW8n&prompt={prompt}'
