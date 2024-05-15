@@ -54,7 +54,7 @@ async def shiki_reply(client, message):
              
         prompt = (
           f"user: {name}\n"
-          f"prompt": {prompt}"
+          f"prompt: {prompt}"
         )
          
         api = f'http://apis-awesome-tofu.koyeb.app/api/sakura_ai/continue?chat_id=DdsFW8n&prompt={prompt}'
