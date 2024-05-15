@@ -3,9 +3,17 @@
 import pyrogram
 import config
 import pymongo
+import logging
 
 
-app = pyrogram.Client(
+
+FORMAT = f"[{config.name}] %(message)s"
+logging.basicConfig(level=logging.INFO, handlers=[logging.FileHandler('logs.txt'),
+              logging.StreamHandler()], format=FORMAT)
+
+
+
+shiki = pyrogram.Client(
    name=config.name,
    api_id=config.api_id,
    api_hash=config.api_hash,
