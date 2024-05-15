@@ -1,6 +1,6 @@
 
 from nandha import shiki
-from nandha.database import set_chat_mode, get_chats, get_chat_mode
+from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_sticker
 from pyrogram import filters, types, enums
 
 import requests
@@ -37,7 +37,7 @@ def admin_only(func):
 
 
 
-@shiki.on_message(filters.text, group=2)
+@shiki.on_message(filters.text & filters.sticker, group=2)
 async def shiki_reply(client, message):
 
     
@@ -55,6 +55,9 @@ async def shiki_reply(client, message):
         db_chats = get_chats()
         if not chat_id in db_chats:
              return
+
+        if message.sticker:
+              add_sticker(chat_id)
              
         prompt = (
           f"username: {name}\n"
