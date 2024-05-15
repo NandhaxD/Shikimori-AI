@@ -8,6 +8,19 @@ import config
 import random
 
 
+
+SHIKI_MSG = [
+     
+     "Hi there i can't reply that question try asking again.",
+     "Hello something went wrong idk.",
+     "Hey idk why do you ask such thing",
+     "Hmm... well idk.",
+     "Please idk maybe ask other",
+     "Letz talk about other idk."
+]
+
+
+
 def admin_only(func):
      async def wrapped(client, message):
          user_id = message.from_user.id
@@ -22,15 +35,6 @@ def admin_only(func):
      return wrapped
               
 
-SHIKI_MSG = [
-     
-     "Hi there i can't reply that question try asking again.",
-     "Hello something went wrong idk.",
-     "Hey idk why do you ask such thing",
-     "Hmm... well idk.",
-     "Please idk maybe ask other",
-     "Letz talk about other idk."
-]
 
 
 @shiki.on_message(filters.text, group=2)
@@ -54,7 +58,7 @@ async def shiki_reply(client, message):
              
         prompt = (
           f"user: {name}\n"
-          f"prompt: {prompt}"
+          f"prompt: {message.text}"
         )
          
         api = f'http://apis-awesome-tofu.koyeb.app/api/sakura_ai/continue?chat_id=DdsFW8n&prompt={prompt}'
