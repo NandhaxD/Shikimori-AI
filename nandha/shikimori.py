@@ -57,7 +57,8 @@ async def shiki_reply(client, message):
              return
 
         if message.sticker:
-              add_sticker(chat_id)
+              add_sticker(
+                   chat_id, message.sticker.file_id)
              
         prompt = (
           f"username: {name}\n"
