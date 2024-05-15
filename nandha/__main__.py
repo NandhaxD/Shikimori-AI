@@ -13,5 +13,5 @@ async def client():
 
 
 if __name__ == '__main__':
-    asyncio.run(client())
+    shiki.loop.run_until_complete(client())
       
