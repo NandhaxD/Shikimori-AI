@@ -10,7 +10,7 @@ async def client()
 
 
 if __name__ == '__main__':
-    shiki.loop.run_until_complete(client)
+    shiki.loop.run_until_complete(client())
 
       
       
