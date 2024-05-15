@@ -1,6 +1,7 @@
 from nandha import shiki
 
 import pyrogram
+import asyncio
 
 async def client():
       await shiki.start()
@@ -10,7 +11,7 @@ async def client():
 
 
 if __name__ == '__main__':
-    shiki.loop.run_until_complete(client())
+    asyncio.run(client())
 
       
       
