@@ -24,7 +24,7 @@ def get_chat_mode(chat_id: int):
       if not db.find_one(chat):
           set_chat_mode(chat_id, False)
       chat = db.find_one(chat)
-      return chat['mode']
+      return chat['chat']
       
            
 
