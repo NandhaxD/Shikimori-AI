@@ -30,7 +30,7 @@ SHIKI_MSG = [
 ]
 
 
-@shiki.on_message(filters.text, group=1)
+@shiki.on_message(filters.text, group=2)
 async def shiki_reply(client, message):
 
     
