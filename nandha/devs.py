@@ -1,7 +1,6 @@
 
 
 from nandha import shiki as bot
-from config import command
 from pyrogram import filters, enums, types
 
 import sys
