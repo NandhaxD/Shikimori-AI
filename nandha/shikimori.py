@@ -18,6 +18,7 @@ def admin_only(func):
             user = await client.get_chat_member(chat_id, user_id)
             if user.privileges:
                  return await func(client, message)
+            return False
 
 SHIKI_MSG = [
      
