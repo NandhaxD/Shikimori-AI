@@ -86,7 +86,7 @@ async def shiki_mode(client, message):
            mode = modes[key]
            set_chat_mode(chat_id, mode)
            mode = get_chat_mode(chat_id)
-           chatname = message.chat.title if message.chat else message.from_user.first_name + ' Chat'
+           chatname = message.chat.title if message.chat.title else message.chat.first_name + ' Chat'
            return await message.reply(
               f'**Shikimori Assistant {mode} in {chatname}.**')
       else:
