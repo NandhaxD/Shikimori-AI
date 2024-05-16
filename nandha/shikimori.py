@@ -154,7 +154,7 @@ async def get_shiki_chats(client, message):
        chats = get_chats()[1]
        text = '**❤️ Shiki Chats**: {}\n'
        for i, chat in enumerate(chats):
-           chatname, chat_id = next(iter(chat_id.items()))
+           chatname, chat_id = next(iter(chat.items()))
            text += f'{i+1}, {chatname} - (`{chat_id}`)\n'
             
               
