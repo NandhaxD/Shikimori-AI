@@ -17,6 +17,7 @@ SHIKI_MSG = [
      "Hmm... well idk.",
      "Please idk maybe ask other",
      "Letz talk about other idk."
+     
 ]
 
 
@@ -42,15 +43,44 @@ async def shiki_reply(client, message):
 
     
     reply = message.reply_to_message
-  
+    chat_id = message.chat.id
+    name = message.sender_chat.title if message.sender_chat else message.from_user.first_name
+     
     if (
+       not message.from_user.is_bot
+       and message.text
+       and bool(re.search('@ShikimoriAI', message.text, re.IGNORECASE))
+    ):
+        db_chats = get_chats()
+        if not chat_id in db_chats:
+             return
+        prompt = (
+          f"username: {name}\n"
+          f"prompt: {message.text}"
+        )
+         
+        api = f'http://apis-awesome-tofu.koyeb.app/api/sakura_ai/continue?chat_id=DdsFW8n&prompt={prompt}'
+
+        await shiki.send_chat_action(
+               chat_id=chat_id, action=enums.ChatAction.TYPING)
+        try:
+           response = requests.get(api).json()
+           reply = response['reply']
+        except Exception as e:
+             
+             print(chat_id, name, e)
+             reply = random.choice(SHIKI_MSG)
+ 
+        return await reply.reply_text(
+              text=reply, quote=True)        
+  
+    elif (
          not message.from_user.is_bot
          and reply 
          and reply.from_user.id == config.shiki_id
     ):
   
-        chat_id = message.chat.id
-        name = message.from_user.first_name
+        
 
         db_chats = get_chats()
         if not chat_id in db_chats:
