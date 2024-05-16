@@ -57,7 +57,7 @@ async def shiki_reply(client, message):
              return
 
         if message.sticker:
-              add_chat_sticker(
+             add_chat_sticker(
                    chat_id, message.sticker.file_id)
              # try:
              stickers = get_chat_stickers(chat_id)
