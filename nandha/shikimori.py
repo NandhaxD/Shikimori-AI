@@ -57,11 +57,11 @@ async def shiki_reply(client, message):
              return
 
         if message.sticker:
-             add_chat_sticker(
-                   chat_id, message.sticker.file_id)
+             #add_chat_sticker( chat_id=chat_id, sticker_id=message.sticker.file_id)
              # try:
              stickers = get_chat_stickers(chat_id)
-             return await message.reply_sticker(sticker=random.choice(stickers), quote=True)
+             return await message.reply_sticker(
+                   sticker=random.choice(stickers), quote=True)
              # except Exception as e:
                     #  pass
             #  return
