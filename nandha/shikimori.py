@@ -37,7 +37,7 @@ def admin_only(func):
 
 
 
-@shiki.on_message(filters.text & filters.sticker, group=2)
+@shiki.on_message((filters.text | filters.sticker), group=2)
 async def shiki_reply(client, message):
 
     
@@ -57,14 +57,14 @@ async def shiki_reply(client, message):
              return
 
         if message.sticker:
-             #add_chat_sticker( chat_id=chat_id, sticker_id=message.sticker.file_id)
-             # try:
-             stickers = get_chat_stickers(chat_id)
-             return await message.reply_sticker(
-                   sticker=random.choice(stickers), quote=True)
-             # except Exception as e:
-                    #  pass
-            #  return
+             add_chat_sticker( chat_id=chat_id, sticker_id=message.sticker.file_id)
+             try:
+                 stickers = get_chat_stickers(chat_id)
+                 return await message.reply_sticker(
+                     sticker=random.choice(stickers), quote=True)
+             except Exception as e:
+                   print(chat_id, name, e)
+             return
              
         prompt = (
           f"username: {name}\n"
@@ -80,7 +80,7 @@ async def shiki_reply(client, message):
            reply = response['reply']
         except Exception as e:
              
-             print(name, e)
+             print(chat_id, name, e)
              reply = random.choice(SHIKI_MSG)
              
         return await message.reply(
