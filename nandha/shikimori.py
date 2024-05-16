@@ -48,7 +48,11 @@ async def shiki_reply(client, message):
     name = message.sender_chat.title if message.sender_chat else message.from_user.first_name
      
     if (
-       not message.from_user.is_bot
+       (
+         message.from_user
+         and not message.from_user.is_bot or 
+         message.sender_chat
+       )
        and message.text
        and bool(re.search('@ShikimoriAI', message.text, re.IGNORECASE))
     ):
@@ -76,7 +80,11 @@ async def shiki_reply(client, message):
               text=reply, quote=True)        
   
     elif (
-         not message.from_user.is_bot
+         (
+           message.from_user 
+           and not message.from_user.is_bot or
+           message.sender_chat
+         )
          and reply 
          and reply.from_user.id == config.shiki_id
     ):
