@@ -70,11 +70,11 @@ async def shiki_reply(client, message):
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
         try:
-           response = requests.get(api).json()
-           reply = response['reply']
+           response = requests.get(api , timeout=15)
+           reply = response.json()['reply']
+   #    except requests.exceptions.Timeout:         
         except Exception as e:
-             
-             print(chat_id, name, e)
+             print(chat_id, name, e, message.text)
              reply = random.choice(SHIKI_MSG)
  
         return await message.reply_text(
@@ -86,7 +86,8 @@ async def shiki_reply(client, message):
            and not message.from_user.is_bot or
            message.sender_chat
          )
-         and reply 
+         and reply
+         and reply.from_user
          and reply.from_user.id == config.shiki_id
     ):
   
@@ -116,13 +117,13 @@ async def shiki_reply(client, message):
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
         try:
-           response = requests.get(api).json()
-           reply = response['reply']
+           response = requests.get(api , timeout=15)
+           reply = response.json()['reply']
+   #    except requests.exceptions.Timeout:         
         except Exception as e:
-             
-             print(chat_id, name, e)
+             print(chat_id, name, e, message.text)
              reply = random.choice(SHIKI_MSG)
-             
+ 
         return await message.reply(
              text=reply, quote=True)
         
