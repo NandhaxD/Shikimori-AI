@@ -143,7 +143,8 @@ async def shiki_mode(client, message):
            shiki = 'off'
            for k, v in modes.items():
              if v == mode:
-                return shiki = k
+                shiki = k
+                
                    
            return await message.reply(
               f'**Shikimori Assistant {shiki.upper()} in {chatname}.**')
