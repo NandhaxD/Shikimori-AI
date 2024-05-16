@@ -72,7 +72,7 @@ async def shiki_reply(client, message):
              print(chat_id, name, e)
              reply = random.choice(SHIKI_MSG)
  
-        return await reply.reply_text(
+        return await message.reply_text(
               text=reply, quote=True)        
   
     elif (
