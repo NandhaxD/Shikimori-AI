@@ -60,7 +60,7 @@ async def shiki_reply(client, message):
           f"prompt: {message.text}"
         )
          
-        api = f'{chatbot_url}{prompt}'
+        api = f'{config.chatbot_url}{prompt}'
 
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
@@ -102,7 +102,7 @@ async def shiki_reply(client, message):
           f"prompt: {message.text}"
         )
          
-        api = f'{chatbot_url}{prompt}'
+        api = f'{config.chatbot_url}{prompt}'
 
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
