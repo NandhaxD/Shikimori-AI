@@ -14,11 +14,11 @@ def set_chat_mode(chat_id: int, chatname, mode):
 def get_chats():
      data = []
      for chat in db.find():
-           data.append({chat['chat_id']: chat['name']})
+           data.append({chat['name']: chat['chat_id']})
      if len(data) == 0:
           chat_ids = data
      else:
-          chat_ids = [list(item.keys())[0] for item in data]
+          chat_ids = [list(item.values())[0] for item in data]
      return chat_ids, data
      
               
