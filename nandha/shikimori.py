@@ -59,8 +59,8 @@ async def shiki_reply(client, message):
        and bool(re.search('@ShikimoriAI', message.text, re.IGNORECASE))
     ):
         
-        shiki = get_chat_mode(chat_id, chatname)
-        if not shiki:
+        is_shiki = get_chat_mode(chat_id, chatname)
+        if not is_shiki:
              return
         prompt = (
           f"username: {name}\n"
@@ -95,8 +95,8 @@ async def shiki_reply(client, message):
   
         
 
-        shiki = get_chat_mode(chat_id, chatname)
-        if not shiki:
+        is_shiki = get_chat_mode(chat_id, chatname)
+        if not is_shiki:
              return
 
         if message.sticker:
