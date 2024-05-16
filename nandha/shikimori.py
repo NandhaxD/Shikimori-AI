@@ -60,7 +60,7 @@ async def shiki_reply(client, message):
           f"prompt: {message.text}"
         )
          
-        api = f'http://apis-awesome-tofu.koyeb.app/api/sakura_ai/continue?chat_id=DdsFW8n&prompt={prompt}'
+        api = f'{chatbot_url}{prompt}'
 
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
@@ -102,7 +102,7 @@ async def shiki_reply(client, message):
           f"prompt: {message.text}"
         )
          
-        api = f'http://apis-awesome-tofu.koyeb.app/api/sakura_ai/continue?chat_id=DdsFW8n&prompt={prompt}'
+        api = f'{chatbot_url}{prompt}'
 
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
@@ -124,7 +124,7 @@ async def shiki_reply(client, message):
 async def shiki_mode(client, message):
   
       chat_id = message.chat.id
-
+      
       modes = {
           'on': True,
           'off': False
@@ -132,11 +132,17 @@ async def shiki_mode(client, message):
       if len(message.text.split()) == 2 and message.text.split()[1] in list(modes.keys()):
            key = message.text.split()[1]
            mode = modes[key]
-           set_chat_mode(chat_id, mode)
-           mode = get_chat_mode(chat_id)
            chatname = message.chat.title if message.chat.title else message.chat.first_name + ' Chat'
+           
+           set_chat_mode(chat_id, chatname, mode)
+           
+           mode = get_chat_mode(chat_id)
+           for k, v in modes.items():
+              if v == mode:
+                 return k
+                   
            return await message.reply(
-              f'**Shikimori Assistant {mode} in {chatname}.**')
+              f'**Shikimori Assistant {k.upper()} in {chatname}.**')
       else:
          return await message.reply(
             'Maybe something you did wrong, Example: `.shiki on|off`')
@@ -147,13 +153,13 @@ async def shiki_mode(client, message):
 async def get_shiki_chats(client, message):
        chats = get_chats()
        text = '**Shiki Chats**: {}\n'
-       count = 1
-       for i, chat_id in enumerate(chats):
-              count += i
-              text += f'{i+1}, `{chat_id}`\n'
+       
+       for i, (chat_id, chatname) in enumerate(chats):
+            
+              text += f'{i+1}, {chatname} - (`{chat_id}`)\n'
             
        return await message.reply(
-            text=text.format(count)
+            text=text.format(len(chats))
        )
                   
       
