@@ -80,7 +80,7 @@ async def shiki_reply(client, message):
              reply = random.choice(SHIKI_MSG)
  
         return await message.reply_text(
-              text=reply, quote=True)        
+              text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)        
   
     elif (
          (
@@ -127,7 +127,7 @@ async def shiki_reply(client, message):
              reply = random.choice(SHIKI_MSG)
  
         return await message.reply(
-             text=reply, quote=True)
+             text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
         
         
 
