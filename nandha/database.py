@@ -30,11 +30,14 @@ def get_chat_mode(chat_id: int):
 def get_chat_stickers(chat_id: int):
     chat_js = {'chat_id': chat_id}
     chat = db.find_one(chat_js)
+    stickers = []
     if chat:
          if 'stickers' in list(chat.keys()):
-             return chat['stickers']
+             return stickers + chat['stickers']
+         else:
+              return stickers
     else:
-         return []
+         return stickers
      
 def add_chat_sticker(chat_id: int, sticker_id):
     chat_js = {'chat_id': chat_id}
