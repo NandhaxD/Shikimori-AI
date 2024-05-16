@@ -52,7 +52,7 @@ async def shiki_reply(client, message):
        and message.text
        and bool(re.search('@ShikimoriAI', message.text, re.IGNORECASE))
     ):
-        db_chats = get_chats()
+        db_chats = get_chats()[0]
         if not chat_id in db_chats:
              return
         prompt = (
@@ -83,7 +83,7 @@ async def shiki_reply(client, message):
   
         
 
-        db_chats = get_chats()
+        db_chats = get_chats()[0]
         if not chat_id in db_chats:
              return
 
@@ -151,13 +151,13 @@ async def shiki_mode(client, message):
 
 @shiki.on_message(filters.me & filters.command('chats', prefixes=['.', '?']))
 async def get_shiki_chats(client, message):
-       chats = get_chats()
-       text = '**Shiki Chats**: {}\n'
-       
-       for i, (chat_id, chatname) in enumerate(chats):
+       chats = get_chats()[1]
+       text = '**❤️ Shiki Chats**: {}\n'
+       for i, chat in enumerate(chats):
+           chatname, chat_id = next(iter(chat_id.items()))
+           text += f'{i+1}, {chatname} - (`{chat_id}`)\n'
             
-              text += f'{i+1}, {chatname} - (`{chat_id}`)\n'
-            
+              
        return await message.reply(
             text=text.format(len(chats))
        )
