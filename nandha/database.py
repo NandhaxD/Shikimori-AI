@@ -22,10 +22,10 @@ def get_chats():
      return chat_ids, data
      
               
-def get_chat_mode(chat_id: int):
+def get_chat_mode(chat_id: int, chatname):
       chat = {'chat_id': chat_id}
       if not db.find_one(chat):
-          set_chat_mode(chat_id, False)
+          set_chat_mode(chat_id, chatname, False)
       chat = db.find_one(chat)
       return chat['chat']
       
