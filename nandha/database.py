@@ -15,7 +15,10 @@ def get_chats():
      data = []
      for chat in db.find():
            data.append({chat['chat_id']: chat['name']})
-     chat_ids = [list(item.keys())[0] for item in data]
+     if len(data) == 0:
+          chat_ids = data
+     else:
+          chat_ids = [list(item.keys())[0] for item in data]
      return chat_ids, data
      
               
