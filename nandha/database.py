@@ -4,20 +4,20 @@ from nandha import db
 
 db = db['chats']
 
-def set_chat_mode(chat_id: int, mode):
+def set_chat_mode(chat_id: int, chatname, mode):
      chat = {'chat_id': chat_id}
      db.update_one(chat,
-            {'$set': {'chat': mode}}, upsert=True
+            {'$set': {'chat': mode, 'name': chatname}}, upsert=True
                   )
      return True
 
 def get_chats():
-    chat_ids = [ chat['chat_id'] for chat in db.find() ]
-    if chat_ids is None:
-        return []
-    else:
-        return chat_ids
-   
+     data = []
+     for chat in db.find():
+           data.append(chat['chat_id']: chat['name']})
+     chat_ids = [list(item.keys())[0] for item in data]
+     return chat_ids, data
+     
               
 def get_chat_mode(chat_id: int):
       chat = {'chat_id': chat_id}
