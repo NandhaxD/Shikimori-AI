@@ -43,7 +43,7 @@ def admin_only(func):
 
 
 
-@shiki.on_message((filters.text | filters.sticker), group=2)
+@shiki.on_message((filters.text | filters.sticker | filters.animation ), group=2)
 async def shiki_reply(client, message):
 
     
@@ -79,7 +79,7 @@ async def shiki_reply(client, message):
         try:
            response = requests.post(api, json=payload_data, timeout=15)
            reply = response.json()['reply']
-           modified_reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
+   #        modified_reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
    #    except requests.exceptions.Timeout:         
         except Exception as e:
              print(chat_id, name, e, message.text)
@@ -105,8 +105,9 @@ async def shiki_reply(client, message):
         if not is_shiki:
              return
 
-        if message.sticker:
-             add_chat_sticker( chat_id=chat_id, sticker_id=message.sticker.file_id)
+        if message.sticker or message.animation:
+             if message.sticker:
+                  add_chat_sticker( chat_id=chat_id, sticker_id=message.sticker.file_id)
              try:
                  stickers = get_chat_stickers(chat_id)
                  return await message.reply_sticker(
@@ -128,7 +129,7 @@ async def shiki_reply(client, message):
         try:
            response = requests.post(api , json=payload_data, timeout=15)
            reply = response.json()['reply']
-           modified_reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
+   #        modified_reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
 
    #    except requests.exceptions.Timeout:         
         except Exception as e:
@@ -136,7 +137,7 @@ async def shiki_reply(client, message):
              reply = random.choice(SHIKI_MSG)
  
         return await message.reply(
-             text=modified_reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
+             text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
         
         
 
