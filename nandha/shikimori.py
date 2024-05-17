@@ -81,12 +81,18 @@ async def shiki_reply(client, message):
            response = requests.post(api, json=payload_data, timeout=15)
            reply = response.json()['reply']
            reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
+           await shiki.send_reaction(chat_id=chat_id, message_id=message.id, emoji='❤️')
    #    except requests.exceptions.Timeout:         
         except Exception as e:
-             print(chat_id, name, e, message.text)
-             reply = random.choice(SHIKI_MSG)
+               print(
+                   'chat_id:',chat_id,
+                   '\nUser:',name, 
+                   '\nError:',e, 
+                   '\nPrompt:',message.text
+               )
+               reply = random.choice(SHIKI_MSG)
              
-        await message.react('❤️')    
+            
         return await message.reply_text(
               text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)        
   
@@ -132,13 +138,18 @@ async def shiki_reply(client, message):
            response = requests.post(api , json=payload_data, timeout=15)
            reply = response.json()['reply']
            reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
-
+           await shiki.send_reaction(chat_id=chat_id, message_id=message.id, emoji='❤️')
    #    except requests.exceptions.Timeout:         
         except Exception as e:
-             print(chat_id, name, e, message.text)
+             print(
+                   'chat_id:',chat_id,
+                   '\nUser:',name, 
+                   '\nError:',e, 
+                   '\nPrompt:',message.text
+             )
              reply = random.choice(SHIKI_MSG)
              
-        await message.react('❤️')
+        
         return await message.reply(
              text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
         
