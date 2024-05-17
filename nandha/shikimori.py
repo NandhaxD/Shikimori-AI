@@ -58,7 +58,7 @@ async def shiki_reply(client, message):
          message.sender_chat
        )
        and message.text
-       and bool(re.search('@ShikimoriAI', message.text, re.IGNORECASE))
+       and bool(re.search(pattern='shiki|shikimori|@ShikimoriAI', string=message.text, flags=re.IGNORECASE))
     ):
         
         is_shiki = get_chat_mode(chat_id, chatname)
