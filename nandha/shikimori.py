@@ -83,7 +83,7 @@ async def shiki_reply(client, message):
              reply = random.choice(SHIKI_MSG)
              
         return await message.reply_text(
-              text=modified_reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)        
+              text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)        
   
     elif (
          (
