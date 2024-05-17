@@ -62,25 +62,28 @@ async def shiki_reply(client, message):
         is_shiki = get_chat_mode(chat_id, chatname)
         if not is_shiki:
              return
-        prompt = (
-          f"username: {name}\n"
-          f"prompt: {message.text}"
-        )
+
+        payload_data = {
+          "uid": message.from_user.id,
+          "char_id": config.char_id,
+          "prompt": message.text
+        }
          
-        api = f'{config.chatbot_url}{prompt}'
+        api = config.chatbot_url
 
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
         try:
-           response = requests.get(api , timeout=15)
+           response = requests.post(api, json=payload_data, timeout=15)
            reply = response.json()['reply']
+           modified_reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
    #    except requests.exceptions.Timeout:         
         except Exception as e:
              print(chat_id, name, e, message.text)
              reply = random.choice(SHIKI_MSG)
- 
+             
         return await message.reply_text(
-              text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)        
+              text=modified_reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)        
   
     elif (
          (
@@ -109,25 +112,28 @@ async def shiki_reply(client, message):
                    print(chat_id, name, e)
              return
              
-        prompt = (
-          f"username: {name}\n"
-          f"prompt: {message.text}"
-        )
+        payload_data = {
+          "uid": message.from_user.id,
+          "char_id": config.char_id,
+          "prompt": message.text
+        }
          
-        api = f'{config.chatbot_url}{prompt}'
+        api = config.chatbot_url
 
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
         try:
-           response = requests.get(api , timeout=15)
+           response = requests.post(api , json=payload_data, timeout=15)
            reply = response.json()['reply']
+           modified_reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
+
    #    except requests.exceptions.Timeout:         
         except Exception as e:
              print(chat_id, name, e, message.text)
              reply = random.choice(SHIKI_MSG)
  
         return await message.reply(
-             text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
+             text=modified_reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
         
         
 
