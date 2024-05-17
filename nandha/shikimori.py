@@ -31,8 +31,11 @@ def admin_only(func):
          if message.chat.type in (enums.ChatType.PRIVATE, enums.ChatType.BOT):
                return await func(client, message)
          else:
-            user = await client.get_chat_member(chat_id, user_id)
-            
+            try:
+              user = await client.get_chat_member(chat_id, user_id)
+            except errors.ChatAdminRequired:
+                 return await message.reply(
+                      '**Admin me to activate & deactivate assistant 🥺🥰**')
             if user.privileges or user_id == config.shiki_id:
                  return await func(client, message)
      return wrapped
