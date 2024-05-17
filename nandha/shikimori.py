@@ -18,7 +18,6 @@ SHIKI_MSG = [
      "Hey idk why do you ask such thing",
      "Hmm... well idk.",
      "Please idk maybe ask other",
-     "Letz talk about other idk."
      
 ]
 
@@ -79,7 +78,7 @@ async def shiki_reply(client, message):
         try:
            response = requests.post(api, json=payload_data, timeout=15)
            reply = response.json()['reply']
-   #        modified_reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
+           reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
    #    except requests.exceptions.Timeout:         
         except Exception as e:
              print(chat_id, name, e, message.text)
@@ -129,7 +128,7 @@ async def shiki_reply(client, message):
         try:
            response = requests.post(api , json=payload_data, timeout=15)
            reply = response.json()['reply']
-   #        modified_reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
+           reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
 
    #    except requests.exceptions.Timeout:         
         except Exception as e:
