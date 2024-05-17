@@ -1,7 +1,7 @@
 
 from nandha import shiki
 from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_chat_sticker, get_chat_stickers
-from pyrogram import filters, types, enums
+from pyrogram import filters, types, enums, errors
 
 import requests
 import config
