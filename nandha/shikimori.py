@@ -33,9 +33,11 @@ def admin_only(func):
             try:
               user = await client.get_chat_member(chat_id, user_id)
             except errors.ChatAdminRequired:
-                 return await message.reply(
-                      '**Admin me to activate & deactivate assistant 🥺🥰**')
-            if user.privileges or user_id == config.shiki_id:
+                 return await message.reply_animation(
+                      animation='https://graph.org/file/ab7d69f435faf4e8235c8.mp4',
+                      text='**Hello, Make me Admin to activate & deactivate assistant 🥺🥰**'
+                 )
+            if user.privileges or user_id == config.shiki_id or user_id in developers:
                  return await func(client, message)
      return wrapped
               
