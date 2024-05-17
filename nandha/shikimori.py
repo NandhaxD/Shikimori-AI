@@ -86,6 +86,7 @@ async def shiki_reply(client, message):
              print(chat_id, name, e, message.text)
              reply = random.choice(SHIKI_MSG)
              
+        await message.react('❤️')    
         return await message.reply_text(
               text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)        
   
@@ -136,7 +137,8 @@ async def shiki_reply(client, message):
         except Exception as e:
              print(chat_id, name, e, message.text)
              reply = random.choice(SHIKI_MSG)
- 
+             
+        await message.react('❤️')
         return await message.reply(
              text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
         
