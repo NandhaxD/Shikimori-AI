@@ -1,6 +1,6 @@
 
 from nandha import shiki, aiohttpsession
-from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_chat_sticker, get_chat_stickers
+from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_chat_sticker, get_chat_stickers, get_all_stickers
 from pyrogram import filters, types, enums, errors
 
 
@@ -175,7 +175,7 @@ async def shiki_reply(client, message):
                        chat_id=chat_id, sticker_id=message.sticker.file_id
                   )
              try:
-                 stickers = get_chat_stickers(chat_id)
+                 stickers = get_all_stickers()
                  return await message.reply_sticker(
                      sticker=random.choice(stickers), quote=True)
              except Exception as e:
