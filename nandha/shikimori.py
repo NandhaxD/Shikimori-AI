@@ -3,10 +3,11 @@ from nandha import shiki
 from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_chat_sticker, get_chat_stickers
 from pyrogram import filters, types, enums, errors
 
-import requests
+import aiohttp
 import config
 import random
 import re
+import os
 
 
 developers = [5015417782, 5696053228] 
@@ -20,6 +21,35 @@ SHIKI_MSG = [
      "Please idk maybe ask other",
      
 ]
+
+async def post_shiki(url: str, *args, **kwargs):
+    async with aiohttpsession.post(url, *args, **kwargs) as resp:
+        data = await resp.json()
+    return data
+
+
+async def ask_shiki(user_id, name, prompt):
+     payload = {
+          "uid": user_id,
+          "char_id": config.char_id,
+          "prompt": prompt
+     }
+     try:
+        api_url = config.chatbot_url
+        response = await post_shiki(api, json=payload)
+        reply = response['reply']
+        reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
+     except Exception:
+           print(
+                   'chat_id: ',chat_id,
+                   '\nUser: ',name, 
+                   '\nError: ',Exception, 
+                   '\nPrompt: ', prompt
+               )
+           reply = random.choice(SHIKI_MSG)
+           
+     return reply
+
 
 
 
@@ -66,35 +96,16 @@ async def shiki_reply(client, message):
         is_shiki = get_chat_mode(chat_id, chatname)
         if not is_shiki:
              return
-
-        payload_data = {
-          "uid": message.from_user.id,
-          "char_id": config.char_id,
-          "prompt": message.text
-        }
-         
-        api = config.chatbot_url
-
+             
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
-        try:
-           response = requests.post(api, json=payload_data, timeout=15)
-           reply = response.json()['reply']
-           reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
-           await shiki.send_reaction(chat_id=chat_id, message_id=message.id, emoji='❤️')
-   #    except requests.exceptions.Timeout:         
-        except Exception as e:
-               print(
-                   'chat_id:',chat_id,
-                   '\nUser:',name, 
-                   '\nError:',e, 
-                   '\nPrompt:',message.text
-               )
-               reply = random.choice(SHIKI_MSG)
-             
+         
+        reply = await ask_shiki(
+               message.from_user.id, name, message.text
+        )
             
         return await message.reply_text(
-              text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)        
+              text=reply, quote=True)        
   
     elif (
          (
@@ -127,36 +138,26 @@ async def shiki_reply(client, message):
                    print(chat_id, name, e)
              return
              
-        payload_data = {
-          "uid": message.from_user.id,
-          "char_id": config.char_id,
-          "prompt": message.text
-        }
-         
-        api = config.chatbot_url
-
+        
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
-        try:
-           response = requests.post(api , json=payload_data, timeout=15)
-           reply = response.json()['reply']
-           reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
-           await shiki.send_reaction(chat_id=chat_id, message_id=message.id, emoji='❤️')
-   #    except requests.exceptions.Timeout:         
-        except Exception as e:
-             print(
-                   'chat_id:',chat_id,
-                   '\nUser:',name, 
-                   '\nError:',e, 
-                   '\nPrompt:',message.text
-             )
-             reply = random.choice(SHIKI_MSG)
-             
+         
+        reply = await ask_shiki(
+               message.from_user.id, name, message.text
+        )
         
         return await message.reply(
-             text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
+             text=reply, quote=True)
         
-    else:
+    elif (
+         (
+           message.from_user 
+           and not message.from_user.is_bot or
+           message.sender_chat
+         )
+         and message.chat.type == enums.ChatType.PRIVATE
+     
+    ):
         if message.sticker or message.animation:
              if message.sticker:
                   add_chat_sticker( 
@@ -170,34 +171,17 @@ async def shiki_reply(client, message):
                    print(chat_id, name, e)
              return
              
-        payload_data = {
-          "uid": message.from_user.id,
-          "char_id": config.char_id,
-          "prompt": message.text
-        }
-         
-        api = config.chatbot_url
+        
 
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
-        try:
-           response = requests.post(api , json=payload_data, timeout=15)
-           reply = response.json()['reply']
-           reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
-           await shiki.send_reaction(chat_id=chat_id, message_id=message.id, emoji='❤️')
-   #    except requests.exceptions.Timeout:         
-        except Exception as e:
-             print(
-                   'chat_id:',chat_id,
-                   '\nUser:',name, 
-                   '\nError:',e, 
-                   '\nPrompt:',message.text
-             )
-             reply = random.choice(SHIKI_MSG)
-             
+         
+        reply = await ask_shiki(
+               message.from_user.id, name, message.text
+        )
         
         return await message.reply(
-             text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
+             text=reply, quote=True)
         
          
 
@@ -239,14 +223,20 @@ async def shiki_mode(client, message):
 @shiki.on_message((filters.me|filters.user(developers)) & filters.command('chats', prefixes=['.', '?']))
 async def get_shiki_chats(client, message):
        chats = get_chats()[1]
-       text = '**❤️ Shiki Chats**: {}\n'
+
+       
+       text = '❤️ Shiki Chats: {}\n'
        for i, chat in enumerate(chats):
            chatname, chat_id = next(iter(chat.items()))
            text += f'{i+1}, {chatname} - (`{chat_id}`)\n'
             
-              
-       return await message.reply(
-            text=text.format(len(chats)), quote=True
-       )
+       path = 'ShikiChats.txt'
+       with open(path, 'wb') as file:
+           file.write(text.format(len(chats)))
+            
+       await message.reply_document(
+            document=path, quote=True)
+       os.remove(path)
+       
                   
       
