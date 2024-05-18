@@ -35,7 +35,7 @@ async def ask_shiki(chat_id, user_id, name, prompt):
           "prompt": prompt
      }
      try:
-        api_url = config.chatbot_url
+        api = config.chatbot_url
         response = await post_shiki(api, json=payload)
         reply = response['reply']
         reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
