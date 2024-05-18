@@ -1,9 +1,9 @@
 
-from nandha import shiki
+from nandha import shiki, aiohttpsession
 from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_chat_sticker, get_chat_stickers
 from pyrogram import filters, types, enums, errors
 
-import aiohttp
+
 import config
 import random
 import re
