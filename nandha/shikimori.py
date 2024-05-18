@@ -28,7 +28,7 @@ async def post_shiki(url: str, *args, **kwargs):
     return data
 
 
-async def ask_shiki(user_id, name, prompt):
+async def ask_shiki(chat_id, user_id, name, prompt):
      payload = {
           "uid": user_id,
           "char_id": config.char_id,
@@ -101,7 +101,7 @@ async def shiki_reply(client, message):
                chat_id=chat_id, action=enums.ChatAction.TYPING)
          
         reply = await ask_shiki(
-               message.from_user.id, name, message.text
+               chat_id, message.from_user.id, name, message.text
         )
             
         return await message.reply_text(
@@ -143,7 +143,7 @@ async def shiki_reply(client, message):
                chat_id=chat_id, action=enums.ChatAction.TYPING)
          
         reply = await ask_shiki(
-               message.from_user.id, name, message.text
+               chat_id, message.from_user.id, name, message.text
         )
         
         return await message.reply(
@@ -177,7 +177,7 @@ async def shiki_reply(client, message):
                chat_id=chat_id, action=enums.ChatAction.TYPING)
          
         reply = await ask_shiki(
-               message.from_user.id, name, message.text
+              chat_id, message.from_user.id, name, message.text
         )
         
         return await message.reply(
