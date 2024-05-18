@@ -102,9 +102,10 @@ async def shiki_reply(client, message):
            and not message.from_user.is_bot or
            message.sender_chat
          )
-         and reply
-         and reply.from_user
-         and reply.from_user.id == config.shiki_id
+        and reply
+        and reply.from_user
+        and reply.from_user.id == config.shiki_id
+        and message.chat.type != enums.ChatType.PRIVATE
     ):
   
         
@@ -112,10 +113,12 @@ async def shiki_reply(client, message):
         is_shiki = get_chat_mode(chat_id, chatname)
         if not is_shiki:
              return
-
+        
         if message.sticker or message.animation:
              if message.sticker:
-                  add_chat_sticker( chat_id=chat_id, sticker_id=message.sticker.file_id)
+                  add_chat_sticker( 
+                       chat_id=chat_id, sticker_id=message.sticker.file_id
+                  )
              try:
                  stickers = get_chat_stickers(chat_id)
                  return await message.reply_sticker(
@@ -153,7 +156,50 @@ async def shiki_reply(client, message):
         return await message.reply(
              text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
         
+    else:
+        if message.sticker or message.animation:
+             if message.sticker:
+                  add_chat_sticker( 
+                       chat_id=chat_id, sticker_id=message.sticker.file_id
+                  )
+             try:
+                 stickers = get_chat_stickers(chat_id)
+                 return await message.reply_sticker(
+                     sticker=random.choice(stickers), quote=True)
+             except Exception as e:
+                   print(chat_id, name, e)
+             return
+             
+        payload_data = {
+          "uid": message.from_user.id,
+          "char_id": config.char_id,
+          "prompt": message.text
+        }
+         
+        api = config.chatbot_url
+
+        await shiki.send_chat_action(
+               chat_id=chat_id, action=enums.ChatAction.TYPING)
+        try:
+           response = requests.post(api , json=payload_data, timeout=15)
+           reply = response.json()['reply']
+           reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
+           await shiki.send_reaction(chat_id=chat_id, message_id=message.id, emoji='❤️')
+   #    except requests.exceptions.Timeout:         
+        except Exception as e:
+             print(
+                   'chat_id:',chat_id,
+                   '\nUser:',name, 
+                   '\nError:',e, 
+                   '\nPrompt:',message.text
+             )
+             reply = random.choice(SHIKI_MSG)
+             
         
+        return await message.reply(
+             text=reply, quote=True, parse_mode=enums.ParseMode.MARKDOWN)
+        
+         
 
 @shiki.on_message(filters.command('shiki', prefixes=['.', '?']))
 @admin_only
