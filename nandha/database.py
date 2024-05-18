@@ -28,7 +28,13 @@ def get_chat_mode(chat_id: int, chatname):
           set_chat_mode(chat_id, chatname, False)
       chat = db.find_one(chat)
       return chat['chat']
-      
+
+
+
+def get_all_stickers():
+     all_stickers = [sticker for chat in db.find() if chat.get('stickers') for sticker in chat['stickers']]
+     return all_stickers
+     
            
 def get_chat_stickers(chat_id: int):
     chat_js = {'chat_id': chat_id}
