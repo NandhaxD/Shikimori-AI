@@ -26,7 +26,14 @@ async def post_shiki(url: str, *args, **kwargs):
     async with aiohttpsession.post(url, *args, **kwargs) as resp:
         data = await resp.json()
     return data
+     
 
+async def shiki_react(message):
+     try:
+       await message.react(random.choice(['🥰', '❤️', '😁']))
+     except:
+          pass
+         
 
 async def ask_shiki(chat_id, user_id, name, prompt):
      payload = {
@@ -99,6 +106,8 @@ async def shiki_reply(client, message):
              
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
+        
+        await shiki_react(message)
          
         reply = await ask_shiki(
                chat_id, message.from_user.id, name, message.text
@@ -142,6 +151,8 @@ async def shiki_reply(client, message):
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
          
+        await shiki_react(message)
+         
         reply = await ask_shiki(
                chat_id, message.from_user.id, name, message.text
         )
@@ -175,6 +186,8 @@ async def shiki_reply(client, message):
 
         await shiki.send_chat_action(
                chat_id=chat_id, action=enums.ChatAction.TYPING)
+
+        await shiki_react(message)
          
         reply = await ask_shiki(
               chat_id, message.from_user.id, name, message.text
@@ -223,7 +236,6 @@ async def shiki_mode(client, message):
 @shiki.on_message((filters.me|filters.user(developers)) & filters.command('chats', prefixes=['.', '?']))
 async def get_shiki_chats(client, message):
        chats = get_chats()[1]
-
        
        text = '❤️ Shiki Chats: {}\n'
        for i, chat in enumerate(chats):
@@ -231,9 +243,10 @@ async def get_shiki_chats(client, message):
            text += f'{i+1}, {chatname} - (`{chat_id}`)\n'
             
        path = 'ShikiChats.txt'
-       with open(path, 'wb') as file:
-           file.write(text.format(len(chats)))
-            
+       text = text.format(len(chats))
+       with open(path, 'w') as file:
+           file.write(text)
+           
        await message.reply_document(
             document=path, quote=True)
        os.remove(path)
