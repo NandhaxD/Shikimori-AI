@@ -171,6 +171,10 @@ async def shiki_reply(client, message):
          and message.chat.type == enums.ChatType.PRIVATE
      
     ):
+        is_shiki = get_chat_mode(chat_id, chatname)
+        if not is_shiki:
+             return
+             
         if message.sticker or message.animation:
              if message.sticker:
                   add_chat_sticker( 
