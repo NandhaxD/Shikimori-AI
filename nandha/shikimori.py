@@ -241,12 +241,12 @@ async def shiki_mode(client, message):
 
 @shiki.on_message((filters.me|filters.user(developers)) & filters.command('chats', prefixes=['.', '?']))
 async def get_shiki_chats(client, message):
-       chats = get_chats()[1]
+       chats = get_chats()
        
        text = '❤️ Shiki Chats: {}\n'
-       for i, chat in enumerate(chats):
-           chatname, chat_id = next(iter(chat.items()))
-           text += f'{i+1}, {chatname} - (`{chat_id}`)\n'
+       for i, chat in enumerate(chats[1]):
+           name, chat_id, shiki = next(iter(chat.items()))
+           text += f'{i+1}, {name} - (`{chat_id}`): {shiki}\n'
             
        path = 'ShikiChats.txt'
        text = text.format(len(chats))
