@@ -245,7 +245,7 @@ async def get_shiki_chats(client, message):
        
        text = '❤️ Shiki Chats: {}\n'
        for i, chat in enumerate(chats[1]):
-           name, chat_id, shiki = next(iter(chat.items()))
+           name, chat_id, shiki = chat['name'], chat['chat_id'], chat['chat']
            text += f'{i+1}, {name} - (`{chat_id}`): {shiki}\n'
             
        path = 'ShikiChats.txt'
