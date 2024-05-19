@@ -45,7 +45,7 @@ async def ask_shiki(chat_id, user_id, name, prompt):
         api = config.chatbot_url
         response = await post_shiki(api, json=payload)
         reply = response['reply']
-        reply = re.sub(r'User', name, reply, flags=re.IGNORECASE)
+        reply = re.sub(r'\bUser\b(?!s)', name, reply, flags=re.IGNORECASE)
      except Exception:
            print(
                    'chat_id: ',chat_id,
