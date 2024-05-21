@@ -99,9 +99,9 @@ async def shiki_reply(client, message):
      
     if (
        (
-         message.from_user
-         and not message.from_user.is_bot or 
-         message.sender_chat
+        ( message.from_user
+         and (not user.is_bot or user.id != config.shiki_id )
+        ) or message.sender_chat
        )
        and message.text
        and bool(re.search(pattern='shiki|shikimori|@ShikimoriAI', string=message.text, flags=re.IGNORECASE))
@@ -125,12 +125,12 @@ async def shiki_reply(client, message):
   
     elif (
          (
-           message.from_user 
-           and not message.from_user.is_bot or
-           message.sender_chat
+           ( message.from_user 
+           and (not message.from_user.is_bot or message.from_user.id != config.shiki_id )
+           )
+              or message.sender_chat
          )
-        and reply
-        and not user.id != config.shiki_id
+        and reply       
         and reply.from_user
         and reply.from_user.id == config.shiki_id
         and message.chat.type != enums.ChatType.PRIVATE
@@ -173,10 +173,10 @@ async def shiki_reply(client, message):
     elif (
          (
            message.from_user 
-           and not message.from_user.is_bot or
-           message.sender_chat
+           and (not user.is_bot or user.id != config.shiki_id)
          )
-         and user.id != config.shiki_id
+           or message.sender_chat
+         )
          and message.chat.type == enums.ChatType.PRIVATE
      
     ):
