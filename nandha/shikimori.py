@@ -7,6 +7,7 @@ from pyrogram import filters, types, enums, errors
 import config
 import random
 import re
+import requests
 import os
 
 developers = [5015417782, 5696053228] 
@@ -22,7 +23,7 @@ SHIKI_MSG = [
      
 ]
 
-content= req.get('https://graph.org/file/bfa6deec0fa5a9f05255d.jpg').content
+content= requests.get('https://graph.org/file/bfa6deec0fa5a9f05255d.jpg').content
 shiki_photo = 'shiki.jpeg'
 with open(shiki_photo, 'wb') as f:
      f.write(content)
