@@ -9,8 +9,8 @@ import random
 import re
 import os
 
-
 developers = [5015417782, 5696053228] 
+
 
 SHIKI_MSG = [
      
@@ -21,6 +21,11 @@ SHIKI_MSG = [
      "Please idk maybe ask other",
      
 ]
+
+content= req.get('https://graph.org/file/bfa6deec0fa5a9f05255d.jpg').content
+shiki_photo = 'shiki.jpeg'
+with open(shiki_photo, 'wb') as f:
+     f.write(content)
 
 async def post_shiki(url: str, *args, **kwargs):
     async with aiohttpsession.post(url, *args, **kwargs) as resp:
@@ -87,6 +92,7 @@ async def shiki_reply(client, message):
     
     reply = message.reply_to_message
     chat_id = message.chat.id
+    user = message.sender_chat if message.sender_chat else message.from_user
     name = message.sender_chat.title if message.sender_chat else message.from_user.first_name
     chatname = message.chat.title if message.chat.title else message.chat.first_name
      
@@ -110,7 +116,7 @@ async def shiki_reply(client, message):
         await shiki_react(message)
          
         reply = await ask_shiki(
-               chat_id, message.from_user.id, name, message.text
+               chat_id, user.id, name, message.text
         )
             
         return await message.reply_text(
@@ -123,6 +129,7 @@ async def shiki_reply(client, message):
            message.sender_chat
          )
         and reply
+        and not user.id != config.shiki_id
         and reply.from_user
         and reply.from_user.id == config.shiki_id
         and message.chat.type != enums.ChatType.PRIVATE
@@ -156,7 +163,7 @@ async def shiki_reply(client, message):
         await shiki_react(message)
          
         reply = await ask_shiki(
-               chat_id, message.from_user.id, name, message.text
+               chat_id, user.id, name, message.text
         )
         
         return await message.reply(
@@ -168,6 +175,7 @@ async def shiki_reply(client, message):
            and not message.from_user.is_bot or
            message.sender_chat
          )
+         and user.id != config.shiki_id
          and message.chat.type == enums.ChatType.PRIVATE
      
     ):
@@ -196,7 +204,7 @@ async def shiki_reply(client, message):
         await shiki_react(message)
          
         reply = await ask_shiki(
-              chat_id, message.from_user.id, name, message.text
+              chat_id, user.id, name, message.text
         )
         
         return await message.reply(
@@ -242,19 +250,18 @@ async def shiki_mode(client, message):
 @shiki.on_message((filters.me|filters.user(developers)) & filters.command('chats', prefixes=['.', '?']))
 async def get_shiki_chats(client, message):
        chats = get_chats()
-       
        text = '❤️ Shiki Chats: {}\n'
        for i, chat in enumerate(chats[1]):
            name, chat_id, shiki = chat['name'], chat['chat_id'], chat['chat']
            text += f'{i+1}, {name} - (`{chat_id}`): {shiki}\n'
             
-       path = 'ShikiChats.txt'
+       shiki_docs = 'ShikiChats.txt'
        text = text.format(len(chats))
-       with open(path, 'w') as file:
+       with open(shiki_docs, 'w') as file:
            file.write(text)
            
        await message.reply_document(
-            document=path, quote=True)
+            document=shiki_docs, thumb=shiki_photo, quote=True)
        os.remove(path)
        
                   
