@@ -171,14 +171,12 @@ async def shiki_reply(client, message):
              text=reply, quote=True)
         
     elif (
-         (
+         
+         ((   
            message.from_user 
-           and (not user.is_bot or user.id != config.shiki_id)
-         )
-           or message.sender_chat
-         )
-         and message.chat.type == enums.ChatType.PRIVATE
-     
+           and (not user.is_bot or user.id != config.shiki_id))
+           or message.sender_chat)      
+           and message.chat.type == enums.ChatType.PRIVATE   
     ):
         is_shiki = get_chat_mode(chat_id, chatname)
         if not is_shiki:
