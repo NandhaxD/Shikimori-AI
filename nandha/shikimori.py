@@ -98,14 +98,13 @@ async def shiki_reply(client, message):
     chatname = message.chat.title if message.chat.title else message.chat.first_name
      
     if (
-       
-         (
-              (message.from_user and (not message.from_user.is_bot or message.from_user.id != config.shiki_id))
-         or message.sender_chat
-       )
-       and message.text
-       and bool(re.search(pattern='shiki|shikimori|@ShikimoriAI', string=message.text, flags=re.IGNORECASE))
-    ):
+    (
+        (message.from_user and (not message.from_user.is_bot and message.from_user.id != config.shiki_id))
+        or message.sender_chat
+    )
+    and message.text
+    and bool(re.search('shiki|shikimori|@shikimoriai', string=message.text, flag=re.IGNORECASE)
+):
         
         is_shiki = get_chat_mode(chat_id, chatname)
         if not is_shiki:
@@ -168,14 +167,14 @@ async def shiki_reply(client, message):
         
     elif (
     (
-        (message.from_user and (not message.from_user.is_bot and message.from_user.id != config.shiki_id))
-        or message.sender_chat
+       (message.from_user and (not message.from_user.is_bot and message.from_user.id != config.shiki_id)) 
+    or message.sender_chat
     )
-    and reply
-    and reply.from_user
-    and reply.from_user.id == config.shiki_id
-    and message.chat.type == enums.ChatType.PRIVATE
-):
+  and reply 
+  and reply.from_user 
+  and reply.from_user.id == config.shiki_id
+  and message.chat.type == enums.ChatType.PRIVATE
+    ):  
         is_shiki = get_chat_mode(chat_id, chatname)
         if not is_shiki:
              return
