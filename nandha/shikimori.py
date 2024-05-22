@@ -100,7 +100,7 @@ async def shiki_reply(client, message):
     if (
        
          (
-              (message.from_user and not message.from_user.is_bot or message.from_user.id != config.shiki_id)
+              (message.from_user and (not message.from_user.is_bot or message.from_user.id != config.shiki_id))
          or message.sender_chat
        )
        and message.text
@@ -125,7 +125,7 @@ async def shiki_reply(client, message):
   
     elif (
     (
-       (message.from_user and not message.from_user.is_bot and message.from_user.id != config.shiki_id) 
+       (message.from_user and (not message.from_user.is_bot and message.from_user.id != config.shiki_id)) 
     or message.sender_chat
     )
   and reply 
@@ -168,7 +168,7 @@ async def shiki_reply(client, message):
         
     elif (
     (
-        (message.from_user and not message.from_user.is_bot and message.from_user.id != config.shiki_id)
+        (message.from_user and (not message.from_user.is_bot and message.from_user.id != config.shiki_id))
         or message.sender_chat
     )
     and reply
