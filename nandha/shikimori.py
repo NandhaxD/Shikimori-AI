@@ -103,8 +103,8 @@ async def shiki_reply(client, message):
         or message.sender_chat
     )
     and message.text
-    and bool(re.search('shiki|shikimori|@shikimoriai', string=message.text, flag=re.IGNORECASE)
-):
+    and bool(re.search('shiki|shikimori|@shikimoriai', string=message.text, flag=re.IGNORECASE))
+    ):
         
         is_shiki = get_chat_mode(chat_id, chatname)
         if not is_shiki:
