@@ -98,10 +98,9 @@ async def shiki_reply(client, message):
     chatname = message.chat.title if message.chat.title else message.chat.first_name
      
     if (
-       (
-         message.from_user and (
-              not user.is_bot or user.id != config.shiki_id
-         )
+       
+         (
+              (message.from_user and not user.is_bot or user.id != config.shiki_id)
          or message.sender_chat
        )
        and message.text
@@ -126,11 +125,7 @@ async def shiki_reply(client, message):
   
     elif (
     (
-       ( 
-         message.from_user 
-         and not message.from_user.is_bot 
-         and message.from_user.id != config.shiki_id
-       ) 
+       (message.from_user and not message.from_user.is_bot and message.from_user.id != config.shiki_id) 
     or message.sender_chat
     )
   and reply 
@@ -172,12 +167,15 @@ async def shiki_reply(client, message):
              text=reply, quote=True)
         
     elif (
-         
-         (  
-           (message.from_user and not message.from_user.is_bot or message.from_user.id != config.shiki_id)   
-           or message.sender_chat)      
-           and message.chat.type == enums.ChatType.PRIVATE   
-    ):
+    (
+        (message.from_user and not message.from_user.is_bot and message.from_user.id != config.shiki_id)
+        or message.sender_chat
+    )
+    and reply
+    and reply.from_user
+    and reply.from_user.id == config.shiki_id
+    and message.chat.type == enums.ChatType.PRIVATE
+):
         is_shiki = get_chat_mode(chat_id, chatname)
         if not is_shiki:
              return
