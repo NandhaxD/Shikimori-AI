@@ -1,4 +1,6 @@
 
+
+from sakura import Client as Shiki
 from nandha import shiki, aiohttpsession
 from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_chat_sticker, get_chat_stickers, get_all_stickers
 from pyrogram import filters, types, enums, errors
@@ -23,33 +25,38 @@ SHIKI_MSG = [
      
 ]
 
+
+
+
 content= requests.get('https://graph.org/file/bfa6deec0fa5a9f05255d.jpg').content
 shiki_photo = 'shiki.jpeg'
 with open(shiki_photo, 'wb') as f:
      f.write(content)
 
-async def post_shiki(url: str, *args, **kwargs):
-    async with aiohttpsession.post(url, *args, **kwargs) as resp:
-        data = await resp.json()
-    return data
+
+Shiki= Client(
+    username = config.username,
+    password = config.password,
+    mongo = config.db_url
+)
      
 
 async def shiki_react(message):
      try:
-       await message.react(random.choice(['🥰', '❤️', '😁']))
+       await message.react(
+            random.choice(
+                 ['🥰', '❤️', '😁', '🗿']
+            )
+       )
      except:
           pass
          
 
 async def ask_shiki(chat_id, user_id, name, prompt):
-     payload = {
-          "uid": user_id,
-          "char_id": config.char_id,
-          "prompt": prompt
-     }
      try:
-        api = config.chatbot_url
-        response = await post_shiki(api, json=payload)
+        response = Shiki.sendMessage(
+             user_id, config.char_id, prompt
+        )
         reply = response['reply']
         reply = re.sub(r'\bUser\b(?!s)', name, reply, flags=re.IGNORECASE)
      except Exception:
