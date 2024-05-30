@@ -2,5 +2,6 @@ pyrofork==2.3.20
 tgcrypto==1.2.5
 aiohttp==3.9.5
 requests==2.31.0
+sakura-fm==0.0.9
 asyncio==3.4.3
 pymongo==4.3.3
