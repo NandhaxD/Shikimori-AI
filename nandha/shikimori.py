@@ -1,6 +1,6 @@
 
 
-from sakura import Client as Shiki
+from sakura import Client
 from nandha import shiki, aiohttpsession
 from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_chat_sticker, get_chat_stickers, get_all_stickers
 from pyrogram import filters, types, enums, errors
