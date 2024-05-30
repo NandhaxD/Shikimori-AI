@@ -62,8 +62,8 @@ async def ask_shiki(chat_id, user_id, name, prompt):
      except Exception:
            print(
                    'chat_id: ',chat_id,
-                   '\nUser: ',name, 
-                   '\nError: ',Exception, 
+                   '\nUser: ', name, 
+                   '\nError: ', str(Exception), 
                    '\nPrompt: ', prompt
                )
            reply = random.choice(SHIKI_MSG)
