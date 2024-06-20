@@ -40,7 +40,14 @@ def scan_sticker(file_id: str):
     }
      
 
-              
+def remove_sticker(chat_id: int, file_id: str):
+    chat = {'chat_id': chat_id}
+    if db.find_one(chat) is not None:
+        db.update_one(
+            chat,
+            {"$pull": {"stickers": file_id}}
+        )
+         
 def get_all_stickers():
      all_stickers = [sticker for chat in db.find() if chat.get('stickers') for sticker in chat['stickers']]
      return all_stickers
