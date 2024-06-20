@@ -257,7 +257,7 @@ async def ScanSticker(shiki, message):
            file_id = reply.sticker.file_id
            check = scan_sticker(file_id)
            if check:
-               chat_id, file_id = next(iter(data))
+               chat_id, file_id = next(iter(check))
                try:       
                   info = await shiki.get_chat(chat_id)
                   name = info.title if info.title else info.mention
