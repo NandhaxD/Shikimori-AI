@@ -2,7 +2,7 @@
 
 from sakura import Client
 from nandha import shiki, aiohttpsession
-from nandha.database import set_chat_mode, get_chats, get_chat_mode, add_chat_sticker, get_chat_stickers, get_all_stickers
+from nandha.database import *
 from pyrogram import filters, types, enums, errors
 
 
@@ -246,6 +246,58 @@ async def shiki_mode(client, message):
             'Maybe something you did wrong, Example: `.shiki on|off`')
  
 
+@shiki.on_message((filters.me|filters.user(developers)) & filters.command('ss', prefixes=['.', '?']))
+async def ScanSticker(shiki, message):
+     m = message
+     reply = m.reply_to_message
+     msg = await m.reply_text(
+          "✨ Finding the sticker please wait...."
+     )
+     if reply and reply.sticker:
+           file_id = reply.sticker.file_id
+           check = scan_sticker(file_id)
+           if check:
+               chat_id, file_id = next(iter(data))
+               try:       
+                  info = await shiki.get_chat(chat_id)
+                  name = info.title if info.title else info.mention
+               except Exception as e:
+                  name = None
+               return await msg.edit(
+f"""
+👀 **Scan results**:
+**Chat**: {name}
+**Id**: `{chat_id}
+
+```
+To remove sticker from the database use
+> .sr chat_id sticker_id
+```
+"""
+)
+           else:
+               return await msg.edit(
+                "🤔 Semms like the sticker not in my database."
+           )
+     else:
+        return await msg.edit("🐼 Reply to s sticker")
+
+
+
+@shiki.on_message((filters.me|filters.user(developers)) & filters.command('sr', prefixes=['.', '?']))
+async def RemoveSticker(shiki, message):
+          m = message
+          if m.command == 1:
+               return await m.reply_text(
+                    "Wrong usage! .sr chat_id file_id"
+               )
+          else:
+             chat_id, sticker_id = m.command[1], m.command[2]
+             await remove_sticker(int(chat_id), sticker_id)
+             return await m.reply_text(
+                  "🎉 Okay! I've removed sticker if sticker in my database."
+             )
+     
 
 @shiki.on_message((filters.me|filters.user(developers)) & filters.command('chats', prefixes=['.', '?']))
 async def get_shiki_chats(client, message):
