@@ -267,7 +267,7 @@ async def ScanSticker(shiki, message):
 f"""
 👀 **Scan results**:
 **Chat**: {name}
-**Id**: `{chat_id}
+**Id**: `{chat_id}`
 
 ```
 To remove sticker from the database use
