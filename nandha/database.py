@@ -32,7 +32,15 @@ def get_chat_mode(chat_id: int, chatname):
       return chat['chat']
 
 
+def scan_sticker(file_id: str):
+    return {         
+         chat["chat_id"]: file_id 
+         for chat in db.find() if 'stickers' in chat 
+         for sticker_ids in chat['stickers'] if file_id in sticker_ids
+    }
+     
 
+              
 def get_all_stickers():
      all_stickers = [sticker for chat in db.find() if chat.get('stickers') for sticker in chat['stickers']]
      return all_stickers
