@@ -5,9 +5,7 @@ import asyncio
 
 
 async def keep_online():
-    while True:
-        await shiki.invoke(pyrogram.raw.functions.account.UpdateStatus(offline=False))
-        await asyncio.sleep(4*60)
+     await shiki.invoke(pyrogram.raw.functions.account.UpdateStatus(offline=False))
 
 async def client():
       await shiki.start()
