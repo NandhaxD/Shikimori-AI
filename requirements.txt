@@ -1,4 +1,4 @@
-git+https://github.com/KurimuzonAkuma/pyrogram.git@v2.1.21
+https://github.com/KurimuzonAkuma/pyrogram/archive/dev.zip
 tgcrypto==1.2.5
 aiohttp==3.9.5
 requests==2.31.0
